@@ -17,19 +17,20 @@
  *
  * Contact: https://github.com/welnanick/Prusa-Connect-SDK-for-Kotlin
  */
-package com.nickwelna.prusaconnectsdk.ktorfit
+package com.nickwelna.prusaconnectsdk.camera.api
 
-import de.jensklingenberg.ktorfit.Ktorfit
-import kotlinx.coroutines.runBlocking
-import kotlin.system.exitProcess
+import de.jensklingenberg.ktorfit.http.POST
+import de.jensklingenberg.ktorfit.http.Path
 
-fun main() {
-    val ktorfit = Ktorfit.Builder().baseUrl("https://swapi.dev/api/").build()
-    val exampleApi = ktorfit.createExampleApi()
-
-    val response = runBlocking {
-        exampleApi.getPerson()
-    }
-    println(response)
-    exitProcess(0)
+/**
+ * This interface contains the Camera related API calls found in PrusaConnect.
+ */
+interface CameraApi {
+    /**
+     * Creates a new camera for the provided printer.
+     *
+     * @param printerUuid the UUID of the printer the camera should be created for.
+     */
+    @POST("app/printers/{printer_uuid}/camera")
+    suspend fun createCamera(@Path("printer_uuid") printerUuid: String): Camera
 }

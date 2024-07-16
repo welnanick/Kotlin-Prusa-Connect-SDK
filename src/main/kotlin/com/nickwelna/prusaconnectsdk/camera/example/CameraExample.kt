@@ -17,11 +17,28 @@
  *
  * Contact: https://github.com/welnanick/Prusa-Connect-SDK-for-Kotlin
  */
-package com.nickwelna.prusaconnectsdk.ktorfit
+package com.nickwelna.prusaconnectsdk.camera.example
 
-import de.jensklingenberg.ktorfit.http.GET
+import com.nickwelna.prusaconnectsdk.camera.CameraClient
+import kotlinx.coroutines.runBlocking
+import kotlin.system.exitProcess
 
-interface ExampleApi {
-    @GET("people/1/")
-    suspend fun getPerson(): String
+/**
+ * A small example showing basic usage of Camera APIs.
+ */
+fun main() {
+    println("Enter session id:")
+    val sessionId = readln()
+
+    val client =
+        CameraClient(sessionId)
+
+    println("Enter printer UUID:")
+    val printerUUID = readln()
+
+    val response = runBlocking {
+        client.createNewCamera(printerUUID)
+    }
+    println(response)
+    exitProcess(0)
 }
